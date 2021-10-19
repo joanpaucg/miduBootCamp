@@ -4,7 +4,7 @@ export const  Persons=(props) =>{
   const confirmDelete=(person)=>{
     const res=window.confirm(`Delete ${person.name}?`)
     if(res){
-      props.deletePerson(person.id)
+      props.deletePerson(person.id,person.name)
     }
   }
     return( 

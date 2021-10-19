@@ -40,7 +40,10 @@ const App = () => {
           setNotification({"message":`${newName} has been updated correctly`,"name":"success"})
           setTimeout(()=>{setNotification({"message":null,"name":null})},5000)
         })
-        .catch(error=>console.log(error))
+        .catch(error=>{
+          setNotification({"message":error.response.data.message,"name":"error"})
+          setTimeout(()=>{setNotification({"message":null,"name":null})},5000)
+        })
 
       }
     }
@@ -49,8 +52,14 @@ const App = () => {
       personsService
       .addPerson(newPerson)
       .then(data=>{
-        console.log(data)
+        
         setPersons([...persons,data])
+        setNotification({"message":`${newName} has been added correctly`,"name":"success"})
+        setTimeout(()=>{setNotification({"message":null,"name":null})},5000)
+      }).catch(error=>{
+        console.log(error)
+        setNotification({"message":error.response.data.message,"name":"error"})
+        setTimeout(()=>{setNotification({"message":null,"name":null})},5000)
       })
   
       
@@ -60,14 +69,18 @@ const App = () => {
     
 
   }
-  const deletePerson=(id)=>{
+  const deletePerson=(id,name)=>{
     personsService
     .deletePerson(id)
     .then((response)=>{
       const newPersons=persons.filter(p=>p.id!==id)
       setPersons(newPersons)
+      setNotification({"message":` ${name} has been deleted correctly`,"name":"success"})
+        setTimeout(()=>{setNotification({"message":null,"name":null})},5000)
+    }).catch(error=>{
+      setNotification({"message":error.response.data.message,"name":"error"})
+      setTimeout(()=>{setNotification({"message":null,"name":null})},5000)
     })
-
   }
   const handleChangeName=(event)=>{
     setNewName(event.target.value)
